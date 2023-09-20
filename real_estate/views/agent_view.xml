@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="agent_view_form" model="ir.ui.view">
+        <field name="name">agent.view.form</field>
+        <field name="model">agent.view</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="reference" readonly="1" placeholder="Agent Id" style="color:red;"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="agent_pic" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="agent_name" string="Agent Name"/>
+                            <field name="agent_property_id" string="Involved Property Type"/>
+                            <field name="agent_address"/>
+                            <field name="agent_mail"/>
+                            <field name="agent_phone"/>
+                        </group>
+                        <group>
+                            <field name="agent_type"/>
+                            <field name="agent_exp"/>
+                            <field name="agent_residential"/>
+                            <field name="agent_language_ids" widget="many2many_tags" options="{'color_field':'color'}"/>
+                            <field name="proficient_level"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                <notebook>
+                    <page string="Agent Involved property">
+                        <field name="agents_ids">
+                            <tree editable="bottom" decoration-success="status == 'accepted'" decoration-danger="status == 'refused'" >
+                                <field name="property_id" decoration-bf="1"/>
+                                <field name="price" decoration-bf="1"/>
+                                <field name="partner_id" decoration-bf="1"/>
+                                <field name="validity"/>
+                                <field name="deadline"/>
+                                <field name="status" decoration-bf="1"/>
+                            </tree>
+                        </field>
+
+                    </page>
+                </notebook>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="agent_view_tree" model="ir.ui.view">
+        <field name="name">agent.view.tree</field>
+        <field name="model">agent.view</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference" string="Agent ID"/>
+                <field name="agent_name"/>
+                <field name="agent_mail"/>
+                <field name="agent_phone"/>
+                <field name="agent_exp" optional="hide"/>
+                <field name="agent_type"/>
+                <field name="agent_language_ids" widget="many2many_tags" options="{'color_field':'color'}"/>
+                <field name="agent_residential" optional="hide"/>
+                <field name="efficiency" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_agent_commission" model="ir.actions.act_window">
+        <field name="name">Agent Commission</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">agent.view</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No records
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="commission_menu"
+              name="Agents Details"
+              action="action_agent_commission"
+              parent="agent_menu"
+              sequence="100"
+    />
+</odoo>

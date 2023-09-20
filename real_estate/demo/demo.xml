@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="real_estate.property1" model="estate.property.type">
+            <field name="property_type">Motel</field>
+        </record>
+        <record id="real_estate.property2" model="estate.property.type">
+            <field name="property_type">IT Company</field>
+        </record>
+        <record id="property3" model="estate.property.type">
+            <field name="property_type">Commercial</field>
+        </record>
+        <record id="property4" model="estate.property.type">
+            <field name="property_type">Industrial</field>
+        </record>
+        <record id="property5" model="estate.property.type">
+            <field name="property_type">Residential</field>
+        </record>
+
+        <record id="real_estate.property_tag1" model="property.type.tag">
+            <field name="tag_name">Restro</field>
+            <field name="color">2</field>
+        </record>
+        <record id="real_estate.property_tag2" model="property.type.tag">
+            <field name="tag_name">Home</field>
+            <field name="color">3</field>
+        </record>
+        <record id="real_estate.property_tag3" model="property.type.tag">
+            <field name="tag_name">Bungallow</field>
+            <field name="color">4</field>
+        </record>
+    </data>
+</odoo>

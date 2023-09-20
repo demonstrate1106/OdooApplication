@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="email_template_real_estate" model="mail.template">
+            <field name="name">Real Estate</field>
+            <field name="model_id" ref="real_estate.model_real_estate"/>
+            <field name="subject">Real Estate regarding details</field>
+            <field name="email_from">{{ user.email }}</field>
+            <field name="email_to">{{object.sales_person.email}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear:
+                        <strong style="color:blue;">
+                            <t t-out="object.sale_buyer.name"/>
+                        </strong>
+                        <br/>
+                        <br/>
+                        <strong style="color:red;">Congratulation for Your Awesome Property,</strong>
+                        <br/>
+                        There Are Your Property Details:
+                        <br/>
+                        <strong style="margin-left:30px;">Property Name:
+                            <t t-out="object.name"/>
+                        </strong>
+                        <br/>
+                        Property Expectation Price:
+                        <t t-out="object.expected_price"/>
+                        <br/>
+                        <strong style="margin-left:30px;">Property Type:
+                            <t t-out="object.property_type_id.property_type"/>
+                        </strong>
+                        <br/>
+                        Your object To Seller
+                        <strong>
+                            <t t-out="object.selling_price"/>
+                        </strong>
+
+                        <br/>
+                        <strong style="margin-left:30px;">Property Seller :
+                            <t t-out="object.sales_person.name"/>
+                        </strong>
+                        <br/>
+                        <strong style="margin-left:30px;">
+                            <t t-out="object.name"/>
+                        </strong>
+                        <br/>
+                        <br/>
+                        <strong>Congratulation !! For this Awesome Property</strong>
+                        <strong>
+                            If You Receive it Already Then Ignore This Mail
+                            <br/>
+                            Thanks And Regard!!
+                        </strong>
+                        Do not hesitate to contact us if you have any Query.
+
+                        <t t-out="object.sales_person.signature or ''">--<br/>Mitchell Admin
+                        </t>
+                    </p>
+                </div>
+            </field>
+<!--            <field name="report_template" ref="action_report_property"/>-->
+<!--            <field name="report_name">Real Estate {{ (object.name )}}</field>-->
+        </record>
+    </data>
+</odoo>

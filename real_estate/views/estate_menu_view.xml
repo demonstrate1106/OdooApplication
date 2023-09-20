@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_root"
+              name="Real Estates"
+              sequence="0"/>
+
+    <menuitem id="first_menu"
+              name="Advertisements"
+              parent="menu_root"
+              sequence="1"/>
+
+    <menuitem id="submenu_first_menu"
+              name="Properties"
+              parent="first_menu"
+              action="action_real_estate"
+              sequence="10"/>
+
+    <menuitem id="menu_second"
+              name="Setting"
+              parent="menu_root"
+              sequence="11"/>
+
+    <menuitem id="second_submenu"
+              name="Property type"
+              parent="menu_second"
+              action="action_property_type"
+              sequence="12"/>
+
+    <menuitem id="tag_submenu"
+              name="Property Tags"
+              parent="menu_second"
+              action="action_property_type_tag"
+              sequence="13"/>
+
+    <menuitem id="agent_menu"
+              name="Agents"
+              parent="real_estate.menu_root"
+              sequence="15"/>
+
+    <menuitem id="offer_submenu"
+              name="Property Offered"
+              parent="menu_root"
+              action="action_property_offer"
+              sequence="13"/>
+
+
+
+
+</odoo>

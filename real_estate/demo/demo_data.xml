@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="real_estate.estate14" model="real.estate">
+            <field name="name">Big Villa</field>
+            <field name="postcode">12345</field>
+            <field name="expected_price" eval="120000"/>
+            <field name="description">A nice and big villa</field>
+            <field name="date_availability">2020-02-02</field>
+            <field name="bedrooms">6</field>
+            <field name="living_area">100</field>
+            <field name="facades">4</field>
+            <field name="garage" eval="True"/>
+            <field name="garden" eval="True"/>
+            <field name="active" eval="True"/>
+            <field name="garden_area">100000</field>
+            <field name="garden_orientation">south</field>
+            <field name="property_type_id" ref="real_estate.property5"/>
+        </record>
+
+        <!--        Link Some Field of offer model to estate Model,ORDERING IS MANDATORY-->
+        <record id="real_estate.offer1" model="estate.property.offer">
+            <field name="partner_id" ref="base.res_partner_12"/>
+            <field name="property_id" ref="real_estate.estate14"/>
+            <field name="validity">14</field>
+            <field name="price">10000</field>
+        </record>
+
+        <record id="real_estate.offer2" model="estate.property.offer">
+            <field name="property_id" ref="real_estate.estate14"/>
+            <field name="partner_id" ref="base.res_partner_12"/>
+            <field name="validity">14</field>
+            <field name="price">1500000</field>
+        </record>
+
+        <record id="real_estate.offer3" model="estate.property.offer">
+            <field name="partner_id" ref="base.res_partner_2"/>
+            <field name="property_id" ref="real_estate.estate14"/>
+            <field name="validity">14</field>
+            <field name="price">1500001</field>
+        </record>
+
+<!--        FUNCTION - IT HELP THE EXECUTE THE PYTHON CODE -->
+        <function model="estate.property.offer" name="action_accept">
+            <value eval="[ref('real_estate.offer3')]"/>
+        </function>
+
+<!--        CREATE A DEMO DATA FOR REAL ESTATE-->
+        <record id="real_estate.estate15" model="real.estate">
+            <field name="name">Tailor Houses</field>
+            <field name="postcode">54321</field>
+            <field name="state">cancel</field>
+            <field name="description">A Awesome and Modern House</field>
+            <field name="date_availability">1963-05-02</field>
+            <field name="bedrooms">4</field>
+            <field name="living_area">150</field>
+            <field name="facades">2</field>
+            <field name="garage" eval="False"/>
+            <field name="garden" eval="False"/>
+            <field name="garden_area">100000</field>
+            <field name="property_type_id" ref="real_estate.property5"/>
+        </record>
+
+<!--       ORDERING IS MANDATORY WHEN WE CREATE DEMO DATA , OFFER IS LATER THEN PROPERTY-->
+        <record id="real_estate.offer4" model="estate.property.offer">
+            <field name="partner_id" ref="base.res_partner_2"/>
+            <field name="property_id" ref="real_estate.estate15"/>
+            <field name="validity">20</field>
+            <field name="price">75000</field>
+        </record>
+
+    </data>
+</odoo>
+

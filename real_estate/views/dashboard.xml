@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="act_kanban" model="ir.actions.act_window">
+        <field name="name">Property types</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">kanban</field>
+    </record>
+
+    <record id="act_real_estate" model="ir.actions.act_window">
+        <field name="name">Real Estate Property</field>
+        <field name="res_model">real.estate</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="real_estate.view_estate_graph"/>
+    </record>
+
+    <record id="act_property_type" model="ir.actions.act_window">
+        <field name="name">Property Type</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="act_all_property" model="ir.actions.act_window">
+        <field name="name">All Property</field>
+        <field name="res_model">real.estate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="act_agent_view" model="ir.actions.act_window">
+        <field name="name">All Property</field>
+        <field name="res_model">agent.view</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="act_calendar" model="ir.actions.act_window">
+        <field name="name">Date Of Availability</field>
+        <field name="res_model">real.estate</field>
+        <field name="view_mode">calendar</field>
+    </record>
+
+
+    <record id="dashboard_form_views" model="ir.ui.view">
+        <field name="name">Dashboard Form</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard">
+                <board style="1-2">
+                    <column>
+                        <action string="Selling Property"
+                                name="%(real_estate.act_real_estate)d"/>
+                        <action string=" Property Types "
+                                name="%(real_estate.act_kanban)d"/>
+
+                        <action string="Property Type"
+                                name="%(real_estate.act_property_type)d"/>
+                        <action string="Calendar View" name="%(real_estate.act_calendar)d"/>
+
+
+                    </column>
+
+                    <column>
+                        <action string="All Property"
+                                name="%(real_estate.act_all_property)d"/>
+                        <action string="Agent Details"
+                                name="%(real_estate.act_agent_view)d"/>
+                    </column>
+
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dashboard_call" model="ir.actions.act_window">
+        <field name="name">Dashboard - Real Estate</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="dashboard_form_views"/>
+    </record>
+
+    <menuitem id="dashboard_menu"
+              name="Dashboards"
+              action="action_dashboard_call"
+              parent="menu_root"
+              sequence="1"
+    />
+</odoo>
+
