@@ -6,7 +6,7 @@
     """,
     'version': '1.0',
     'summary': 'Real Estate - Odoo App',
-    'author': 'Awadhesh Giri , Arya iTech Classes',
+    'author': 'Awadhesh Giri , iTech Classes',
     'website': "www.demonstrate.com",
     'sequence': -100,
     'licence': 'LGPL-3',
@@ -36,6 +36,7 @@
     ],
 
     'demo': [],
+    'images': ['static/description/image.png'],
     'installable': True,
     'application': True,
     'auto-install': False,
