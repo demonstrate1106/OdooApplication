@@ -6,9 +6,11 @@
     """,
     'version': '1.0',
     'summary': 'Real Estate - Odoo App',
-    'author': 'iTech Classes',
+    'author': 'Arya iTech Classes',
     'website': "www.demonstrate.com",
     'sequence': -100,
+    'licence': 'LGPL-3',
+    'maintainer': 'Awadhesh Giri ',
     'category': 'Real Estate/Brokerage',
     'depends': ['mail', 'board'],
     'data': [
@@ -37,5 +39,5 @@
     'installable': True,
     'application': True,
     'auto-install': False,
-    'licence': 'LGPL-3',
+    
 }
