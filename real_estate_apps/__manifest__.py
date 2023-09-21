@@ -36,7 +36,7 @@
     ],
 
     'demo': [],
-    'images': ['static/description/image.png'],
+    'images': ['static/description/banner.gif'],
     'installable': True,
     'application': True,
     'auto-install': False,
