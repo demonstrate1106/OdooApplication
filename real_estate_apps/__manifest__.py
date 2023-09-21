@@ -9,7 +9,7 @@
     'author': 'Awadhesh Giri , iTech Classes',
     'website': "www.demonstrate.com",
     'sequence': -100,
-    'licence': 'LGPL-3',
+    'license': 'AGPL-3',
     'maintainer': 'Awadhesh Giri ',
     'category': 'Real Estate/Brokerage',
     'depends': ['mail', 'board'],
@@ -34,6 +34,7 @@
         'views/agent_view.xml',
         'views/agent_language.xml',
     ],
+    
 
     'demo': [],
     'images': ['static/description/banner.gif'],
