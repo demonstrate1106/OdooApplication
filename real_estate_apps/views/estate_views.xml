@@ -137,7 +137,8 @@
                             attrs="{'invisible':[('state','in', ['cancel'])]}"/>
                     <button name="action_solds" string="Sold" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','in', ['sold'])]}"/>
-                    <button name="action_share_whatsapp" type="object" icon="fa-whatsapp" class="oe_highlight"/>        
+                            
+                    <button name="action_share_whatsapp" type="object" icon= "fa-whatsapp" class="oe_highlight"/>        
                     <!--                    <button name="print_reports" string="Print" type="object" class="btn-primary"-->
                     <!--                            attrs="{'invisible':[('state','not in',['sold','offer_accepted'])]}"/>-->
                     <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"/>

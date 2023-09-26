@@ -194,6 +194,7 @@ class RealEstate(models.Model):
         message = 'Hi! *%s* ,You have assigned To a New Property *%s*\n Please check Your Profile for more Info.' % (self.agent_id.agent_name, self.name)
         whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' % (self.agent_id.agent_phone, message)
         self.message_post(body=message, subject="whatsapp Message")
+        
         return {
             'type': 'ir.actions.act_url',
             'target': 'new',
