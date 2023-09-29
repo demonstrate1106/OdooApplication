@@ -63,12 +63,17 @@ class RealEstate(models.Model):
     agent_phone = fields.Char(string="Agent Phone:", related='agent_id.agent_phone', tracking=True)
     agent_pic = fields.Image(string="Agent Image", related='agent_id.agent_pic', tracking=True)
     sell_month_expected = fields.Selection([
-        ('jan_march', 'JAN - MAR'),
-        ('apr_june', 'APR - JUNE'),
-        ('july_aug', 'JULY - AUG'),
-        ('sep_dec', 'SEP - DEC'),
+        ('days', 'Within 15days'),
+        ('1month', 'Within 1Month'),
+        ('2month', 'Within 2Month'),
+        ('3month', 'More-than 3month'),
     ])
     password = fields.Char(string="Password")
+
+    '''below field For smart button '''
+    count_offer = fields.Integer(compute="_compute_count_offer", store=True)
+    whatsapp_chat = fields.Char(compute="_compute_whatsapp_chat")
+    count_tags = fields.Integer(compute="_compute_count_tags")
 
     def action_solds(self):
         for rec in self:
@@ -173,6 +178,21 @@ class RealEstate(models.Model):
                 raise ValidationError(_("WARNING....\n Deletion is possible only in New or Cancel State"))
             return super(RealEstate, self).unlink()
 
+        # whatsapp_Chat
+
+    def action_share_whatsapp(self):
+        if not self.agent_id.agent_phone:
+            raise ValidationError('Sorry! Missing Phone Number for agent')
+        message = 'Hi! *%s* ,You have assigned To a New Property *%s*\n Please check Your Profile for more Info.' % (
+            self.agent_id.agent_name, self.name)
+        whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' % (self.agent_id.agent_phone, message)
+        self.message_post(body=message, subject="whatsapp Message")
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': whatsapp_api_url
+        }
+
     @api.depends('state')
     def _compute_progress(self):
         for rec in self:
@@ -188,26 +208,66 @@ class RealEstate(models.Model):
                 progress = 0
             rec.progress = progress
 
-    def action_share_whatsapp(self):
-        if not self.agent_id.agent_phone:
-            raise ValidationError('Sorry! Missing Phone Number for agent')
-        message = 'Hi! *%s* ,You have assigned To a New Property *%s*\n Please check Your Profile for more Info.' % (self.agent_id.agent_name, self.name)
-        whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' % (self.agent_id.agent_phone, message)
-        self.message_post(body=message, subject="whatsapp Message")
-        
-        return {
-            'type': 'ir.actions.act_url',
-            'target': 'new',
-            'url': whatsapp_api_url
-        }
-
-
     @api.model
     def create(self, vals):
         if not vals.get('state'):
             vals['state'] = 'offer_received'
         return super(RealEstate, self).create(vals)
 
-    # def print_reports(self):
-    #     return self.env.ref('real_estate.action_report_property').report_action(self)
+    @api.depends('agent_phone')
+    def _compute_whatsapp_chat(self):
+        for rec in self:
+            if rec.agent_phone:
+                self.whatsapp_chat = "Available"
+            else:
+                self.whatsapp_chat = "Unavailable"
 
+    @api.depends('tag_ids')
+    def _compute_count_tags(self):
+        # local = 0
+        for rec in self:
+            result = len(rec.tag_ids)
+        self.count_tags = result
+
+    @api.depends('offer_ids.partner_id')
+    def _compute_count_offer(self):
+        for rec in self:
+            rec.count_offer = self.env['estate.property.offer'].search_count([('property_id', '=', rec.id)])
+
+    def action_count_offer(self):
+        return {
+            'name': _('Total Offered'),
+            'view_mode': 'list',
+            'type': 'ir.actions.act_window',
+            'domain': [('property_id', '=', self.id)],
+            'res_model': 'estate.property.offer',
+            'target': 'current',
+        }
+
+    def action_whatsapp_chat(self):
+        if not self.agent_id.agent_phone:
+            raise ValidationError('Sorry! Missing Phone Number for agent')
+        message = 'Hi! *%s* ,I hope you are Doing Well' % (self.agent_id.agent_name)
+        whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' % (self.agent_id.agent_phone, message)
+        self.message_post(body=message, subject="whatsapp Message")
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': whatsapp_api_url
+        }
+
+    def action_count_tags(self):
+        return {
+            'name': _('Tags'),
+            'view_mode': 'list',
+            'type': 'ir.actions.act_window',
+            'domain': [('tag_name', '=', self.tag_ids)],
+            'res_model': 'property.type.tag',
+            'target': 'current',
+        }
+
+
+"""forPrint PDF report through custom button created"""
+# def print_reports(self):
+#     return self.env.ref('real_estate.action_report_property').report_action(self)
+# widget="state_selection"

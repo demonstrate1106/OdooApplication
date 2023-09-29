@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
+    <!--For server action -->
     <record model="ir.actions.server" id="action_real_estate2">
         <field name="name">Confirm Sold</field>
         <field name="type">ir.actions.server</field>
@@ -129,6 +129,7 @@
 
             <form>
                 <header>
+
                     <button name="action_offer_received" string="Offer Received" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','not in', 'new')]}"/>
                     <button name="action_offer_accept" string="Offer Accept" type="object" class="btn-primary"
@@ -137,14 +138,32 @@
                             attrs="{'invisible':[('state','in', ['cancel'])]}"/>
                     <button name="action_solds" string="Sold" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','in', ['sold'])]}"/>
-                            
-                    <button name="action_share_whatsapp" type="object" icon= "fa-whatsapp" class="oe_highlight"/>        
+                    <button name="action_share_whatsapp" type="object" string="Notify on Whatsapp" class="oe_highlight"/>
                     <!--                    <button name="print_reports" string="Print" type="object" class="btn-primary"-->
                     <!--                            attrs="{'invisible':[('state','not in',['sold','offer_accepted'])]}"/>-->
                     <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"/>
                 </header>
-                <!--                <link rel="stylesheet" href="/real_estate/static/src/css/style.css"></link>-->
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button class="oe_stat_button" type="object" name="action_whatsapp_chat" icon="fa-whatsapp">
+                            <field name="whatsapp_chat" widget="statinfo" string="Let's Chat"
+                                   style="font-weight: bold;"/>
+                        </button>
+
+                        <button class="oe_stat_button" type="object" name="action_count_tags" icon="fa-tags">
+                            <field name="count_tags" widget="statinfo" string="Tagged Property"
+                                   style="font-weight: bold;"/>
+                        </button>
+
+                        <button class="oe_stat_button" type="object" name="action_count_offer" icon="fa-ticket"
+                                attrs="{'invisible': [('state', '=', 'new')]}">
+                            <field name="count_offer" widget="statinfo" string="Offers" style="font-weight: bold;"/>
+                        </button>
+
+
+                    </div>
+
                     <widget name="web_ribbon" title="New" bg_color="bg-danger"
                             attrs="{'invisible':[('state','not in','new')]}"/>
                     <widget name="web_ribbon" title="Offer Received" bg_color="bg-info"
@@ -169,8 +188,10 @@
                     </group>
                     <group>
                         <group>
-                            <field name="tag_ids" widget="many2many_tags" options="{'color_field':'color' ,'no_create_edit':True,'no_create':True}"/>
-                            <field name="property_type_id" string="Property Type" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field':'color' ,'no_create_edit':True,'no_create':True}"/>
+                            <field name="property_type_id" string="Property Type"
+                                   options="{'no_create_edit':True,'no_create':True}"/>
                             <field name="postcode" string="Postcode" style="border-radius:6px;border:1px solid blue;"/>
                         </group>
                         <group>
@@ -196,8 +217,7 @@
                                string="Enter Password" placeholder="Please Enter DB Password For Sold The Property"/>
                     </group>
                     <footer>
-                        <button string="Verify" attrs="{'invisible':[('state','!=','offer_accepted')]}" type="object"
-                                name="action_verify_password" class="btn-primary"/>
+                        <button string="Verify" attrs="{'invisible':[('state','!=','offer_accepted')]}" type="object" name="action_verify_password" class="btn-primary"/>
                     </footer>
 
                 </sheet>
@@ -247,7 +267,7 @@
                                   decoration-danger="status == 'refused'">
                                 <field name="property_id" options="{'no_create_edit':True,'no_create':True}"/>
                                 <field name="price"/>
-                                <field name="partner_id" />
+                                <field name="partner_id"/>
                                 <field name="validity" string="Validity(Days)"/>
                                 <field name="deadline" string="Deadline"/>
                                 <button name="action_accept" type="object" class="fa fa-check btn-success"
