@@ -66,7 +66,7 @@ class RealEstate(models.Model):
         ('days', 'Within 15days'),
         ('1month', 'Within 1Month'),
         ('2month', 'Within 2Month'),
-        ('3month', 'More-than 3month'),
+        ('3month', 'More-Than 3month'),
     ])
     password = fields.Char(string="Password")
 
@@ -74,6 +74,8 @@ class RealEstate(models.Model):
     count_offer = fields.Integer(compute="_compute_count_offer", store=True)
     whatsapp_chat = fields.Char(compute="_compute_whatsapp_chat")
     count_tags = fields.Integer(compute="_compute_count_tags")
+    invoice = fields.Char(compute="_compute_invoice")
+
 
     def action_solds(self):
         for rec in self:
@@ -234,6 +236,14 @@ class RealEstate(models.Model):
         for rec in self:
             rec.count_offer = self.env['estate.property.offer'].search_count([('property_id', '=', rec.id)])
 
+    @api.depends('state')
+    def _compute_invoice(self):
+        for rec in self:
+            if rec.state == 'sold':
+                self.invoice = 'Created'
+            else:
+                self.invoice = 'UnCreated'
+
     def action_count_offer(self):
         return {
             'name': _('Total Offered'),
@@ -261,13 +271,79 @@ class RealEstate(models.Model):
             'name': _('Tags'),
             'view_mode': 'list',
             'type': 'ir.actions.act_window',
-            'domain': [('tag_name', '=', self.tag_ids)],
+            # 'domain': [('tag_ids', 'in', self.id)],
             'res_model': 'property.type.tag',
             'target': 'current',
+        }
+
+    def action_invoice_status(self):
+        if self.state == 'sold':
+            return{
+                'name': _('Invoice'),
+                'view_mode': 'list,form',
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.move',
+                'target': 'current',
+                }
+        else:
+            raise ValidationError(_("Invoice Not Created for this Property!!🛑"))
+
+    def send_email(self):
+        self.ensure_one()
+        ir_model_data = self.env["ir.model.data"]
+        template_id = ir_model_data.env.ref("real_estate.email_estate_view")
+        try:
+            compose_form_id = ir_model_data.env.ref(
+                "mail.email_compose_message_wizard_form"
+            )
+        except ValueError:
+            compose_form_id = False
+
+        mail_notification_layout = (
+            "mail.mail_notification_layout_with_responsible_signature"
+        )
+
+        ctx = dict(self.env.context or {})
+        ctx.update(
+            {
+                "default_model": "real.estate",
+                "active_model": "real.estate",
+                "active_id": self.ids[0],
+                "default_res_id": self.ids[0],
+                "default_use_template": bool(template_id),
+                "default_template_id": template_id.id,
+                "default_composition_mode": "comment",
+                "default_email_layout_xmlid": mail_notification_layout,
+                "force_email": True,
+                "mark_rfq_as_sent": True,
+            }
+        )
+        lang = self.env.context.get("lang")
+        if {"default_template_id", "default_model", "default_res_id"} <= ctx.keys():
+            template = self.env["mail.template"].browse(ctx["default_template_id"])
+            if template and template.lang:
+                lang = template._render_lang([ctx["default_res_id"]])[
+                    ctx["default_res_id"]
+                ]
+
+        self = self.with_context(lang=lang)
+        if self.state in ["new", "sold"]:
+            ctx["model_description"] = _("Request for Quotation")
+        else:
+            ctx["model_description"] = _("Sale Order")
+
+        return {
+            "name": _("Compose Email"),
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": "mail.compose.message",
+            "views": [(compose_form_id.id, "form")],
+            "view_id": compose_form_id.id,
+            "target": "new",
+            "context": ctx,
         }
 
 
 """forPrint PDF report through custom button created"""
 # def print_reports(self):
 #     return self.env.ref('real_estate.action_report_property').report_action(self)
-# widget="state_selection"

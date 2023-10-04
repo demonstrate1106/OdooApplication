@@ -129,7 +129,7 @@
 
             <form>
                 <header>
-
+                    <button name="send_email" type="object" string="Send By Email"   attrs="{'invisible':[('state','in', ['new','offer_received'])]}" />
                     <button name="action_offer_received" string="Offer Received" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','not in', 'new')]}"/>
                     <button name="action_offer_accept" string="Offer Accept" type="object" class="btn-primary"
@@ -145,6 +145,12 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+
+                        <button class="oe_stat_button" type="object" name="action_invoice_status" icon="fa-file-text-o"
+                                attrs="{'invisible': [('state', '=', 'new')]}">
+                            <field name="invoice" widget="statinfo" string="Invoice Status"
+                                   style="font-weight: bold;"/>
+                        </button>
 
                         <button class="oe_stat_button" type="object" name="action_whatsapp_chat" icon="fa-whatsapp">
                             <field name="whatsapp_chat" widget="statinfo" string="Let's Chat"
@@ -179,7 +185,7 @@
                             <h2>
                                 <label for="name" string="Title" class="oe_edit_only"/>
                                 <field name="name"
-                                       style="border-radius:10px;width:60%;height:30px; background-color:honeydew;text-align:center;"/>
+                                       style="border-radius:10px;width:60%;height:30px; background-color:honeydew;text-align:center;font-weight:bold;"/>
                             </h2>
                         </div>
                         <group>
