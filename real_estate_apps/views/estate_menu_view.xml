@@ -5,7 +5,7 @@
               sequence="0"/>
 
     <menuitem id="first_menu"
-              name="Advertisements"
+              name="Listed Property"
               parent="menu_root"
               sequence="1"/>
 

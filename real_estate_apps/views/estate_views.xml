@@ -19,7 +19,7 @@
         <field name="arch" type="xml">
 
             <tree sample="1" decoration-warning="state == 'offer_received'"
-                  decoration-success="state == 'offer_accepted'" decoration-danger="state == 'cancel'"
+                  decoration-success="state == 'offer_accepted'" decoration-danger="state in ['cancel' , 'new']"
                   decoration-muted="state == 'sold'">
                 <field name="name" decoration-bf="1"/>
                 <field name="postcode" optional="hide"/>
@@ -129,7 +129,11 @@
 
             <form>
                 <header>
-                    <button name="send_email" type="object" string="Send By Email"   attrs="{'invisible':[('state','in', ['new','offer_received'])]}" />
+                    <button name="send_email" type="object" string="Send By Email"
+                            attrs="{'invisible':[('state','in', ['new','offer_received'])]}"/>
+                    <button name="action_share_whatsapp" type="object" string="Notify on Whatsapp"
+                    />
+
                     <button name="action_offer_received" string="Offer Received" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','not in', 'new')]}"/>
                     <button name="action_offer_accept" string="Offer Accept" type="object" class="btn-primary"
@@ -138,7 +142,9 @@
                             attrs="{'invisible':[('state','in', ['cancel'])]}"/>
                     <button name="action_solds" string="Sold" type="object" class="btn-primary"
                             attrs="{'invisible':[('state','in', ['sold'])]}"/>
-                    <button name="action_share_whatsapp" type="object" string="Notify on Whatsapp" class="oe_highlight"/>
+                    <button name="action_reset_new" string="RESET STATE" type="object" class="btn-primary"
+                            attrs="{'invisible':[('state','not in', 'cancel')]}"/>
+
                     <!--                    <button name="print_reports" string="Print" type="object" class="btn-primary"-->
                     <!--                            attrs="{'invisible':[('state','not in',['sold','offer_accepted'])]}"/>-->
                     <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"/>
@@ -205,6 +211,7 @@
                             <field name="date_availability"/>
                             <field name="selling_price"/>
                             <field name="best_offer"/>
+
                         </group>
                         <group>
 
@@ -223,7 +230,8 @@
                                string="Enter Password" placeholder="Please Enter DB Password For Sold The Property"/>
                     </group>
                     <footer>
-                        <button string="Verify" attrs="{'invisible':[('state','!=','offer_accepted')]}" type="object" name="action_verify_password" class="btn-primary"/>
+                        <button string="Verify" attrs="{'invisible':[('state','!=','offer_accepted')]}" type="object"
+                                name="action_verify_password" class="btn-primary"/>
                     </footer>
 
                 </sheet>
@@ -304,6 +312,11 @@
                             </sheet>
                         </form>
                     </page>
+
+                    <page string="3D Model Views">
+                        <field name="model_viewer_pic" widget="model_viewer" style="width:800px;height:450px;;"/>
+                    </page>
+
                 </notebook>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>

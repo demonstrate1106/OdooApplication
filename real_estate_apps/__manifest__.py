@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Real Estate Management",
+    'name': "Real Estate",
     'description': """
-        An Application for managing Real Estate Property!
+        A real World Problem and Solution for Builders and Workers
     """,
-    'version': '1.0',
-    'summary': 'Real Estate - Odoo App',
-    'author': 'Awadhesh Giri , iTech Classes',
-    'website': "www.demonstrate.com",
+    'version': '0.1',
+    'summary': '',
+    'author': 'Synodica S.O',
+    'website': "",
     'sequence': -100,
-    'license': 'AGPL-3',
-    'maintainer': 'Awadhesh Giri ',
     'category': 'Real Estate/Brokerage',
-    'depends': ['mail', 'board'],
+    'depends': ['mail', 'web_widget_model_viewer_15', 'board'],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
@@ -22,6 +20,7 @@
         'demo/demo_data.xml',
         'demo/property_demo.xml',
         'views/dashboard.xml',
+        # 'views/res_users.xml',     >>> ERROR
         'views/estate_views.xml',
         'views/view_property_type.xml',
         'views/view_property_type_tags.xml',
@@ -31,15 +30,14 @@
         'views/estate_menu_view.xml',
         'views/res_user_view.xml',
         'wizard/wizard_validation_form.xml',
+        'wizard/valuation_view.xml',
         'views/agent_view.xml',
         'views/agent_language.xml',
     ],
-    
-
+    # 'css':['static/src/css/my_custom_style.css'],
     'demo': [],
-    'images': ['static/description/banner.gif'],
     'installable': True,
     'application': True,
     'auto-install': False,
-    
+    'licence': 'LGPL-3',
 }

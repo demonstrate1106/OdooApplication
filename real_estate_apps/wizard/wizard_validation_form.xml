@@ -46,11 +46,18 @@
         <field name="target">new</field>
     </record>
 
+     <menuitem
+            id="wizard_main_id"
+            name="Validation &amp; Valuation"
+            parent="real_estate.menu_root"
+            sequence="10"
+    />
+
     <menuitem
             id="wizard_menu_id"
             name="Wizard Validation"
-            parent="real_estate.menu_root"
+            parent="wizard_main_id"
             action="wizard_real_estate_menu"
-            sequence="10"
+            sequence="11"
     />
 </odoo>

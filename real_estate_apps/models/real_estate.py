@@ -14,9 +14,9 @@ def _default_date():
 
 class RealEstate(models.Model):
     _name = 'real.estate'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin',]
     _description = 'Real Estate'
-    _order = "id desc"
+    _order = "state, id desc"
     _rec_name = "name"
     name = fields.Char(required=True, string="Title", tracking=True)
     property_type_id = fields.Many2one('estate.property.type', tracking=True, ondelete='cascade')
@@ -75,6 +75,7 @@ class RealEstate(models.Model):
     whatsapp_chat = fields.Char(compute="_compute_whatsapp_chat")
     count_tags = fields.Integer(compute="_compute_count_tags")
     invoice = fields.Char(compute="_compute_invoice")
+    model_viewer_pic = fields.Binary(string='3D Model Rendering',store=True)
 
 
     def action_solds(self):
@@ -144,6 +145,14 @@ class RealEstate(models.Model):
                 raise ValidationError(_("You can not Cancel a Property After Sold!!"))
             else:
                 self.state = 'cancel'
+        return True
+
+    def action_reset_new(self):
+        for rec in self:
+            if self.state != 'cancel':
+                raise ValidationError(_("RESET is Possible only in Cancel State"))
+            else:
+                self.state = 'new'
         return True
 
     def action_offer_received(self):
@@ -278,13 +287,13 @@ class RealEstate(models.Model):
 
     def action_invoice_status(self):
         if self.state == 'sold':
-            return{
+            return {
                 'name': _('Invoice'),
                 'view_mode': 'list,form',
                 'type': 'ir.actions.act_window',
                 'res_model': 'account.move',
                 'target': 'current',
-                }
+            }
         else:
             raise ValidationError(_("Invoice Not Created for this Property!!🛑"))
 

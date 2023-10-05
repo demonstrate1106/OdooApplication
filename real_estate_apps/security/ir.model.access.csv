@@ -5,5 +5,6 @@ access.property.type.tag,access_property_type_tag,real_estate.model_property_typ
 access.estate.property.offer,access_estate_property_offer,real_estate.model_estate_property_offer,base.group_user,1,1,1,1
 access.res.users,access_res_users,real_estate.model_res_users,base.group_user,1,1,1,1
 access.wizard.validation.estate,access_wizard_validation_estate,real_estate.model_wizard_validation_estate,,1,1,1,1
+access.property.valuation,access_property_valuation,real_estate.model_property_valuation,,1,1,1,1
 access.agent.view,access_agent_view,real_estate.model_agent_view,base.group_user,1,1,1,1
 access.agent.language,access_agent_language,real_estate.model_agent_language,base.group_user,1,1,1,1
