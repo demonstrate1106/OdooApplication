@@ -12,7 +12,7 @@
     'license': 'AGPL-3',
     'maintainer': 'Awadhesh Giri ',
     'category': 'Real Estate/Brokerage',
-    'depends': ['mail', 'board'],
+    'depends': ['mail', 'web_widget_model_viewer_15', 'board'],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
@@ -31,11 +31,11 @@
         'views/estate_menu_view.xml',
         'views/res_user_view.xml',
         'wizard/wizard_validation_form.xml',
+        'wizard/valuation_view.xml',
         'views/agent_view.xml',
         'views/agent_language.xml',
     ],
-    
-
+ 
     'demo': [],
     'images': ['static/description/banner.gif'],
     'installable': True,
