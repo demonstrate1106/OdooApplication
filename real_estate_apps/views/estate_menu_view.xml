@@ -44,6 +44,11 @@
               sequence="13"/>
 
 
-
+    <menuitem id="dashboard_menu"
+              name="Dashboards"
+              action="action_dashboard_call"
+              parent="menu_root"
+              sequence="1"
+    />
 
 </odoo>

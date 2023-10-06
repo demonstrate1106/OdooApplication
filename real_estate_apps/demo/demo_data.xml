@@ -3,7 +3,7 @@
     <data noupdate="1">
         <record id="real_estate.estate14" model="real.estate">
             <field name="name">Big Villa</field>
-            <field name="postcode">12345</field>
+            <field name="postcode">841425</field>
             <field name="expected_price" eval="120000"/>
             <field name="description">A nice and big villa</field>
             <field name="date_availability">2020-02-02</field>
@@ -48,7 +48,7 @@
 <!--        CREATE A DEMO DATA FOR REAL ESTATE-->
         <record id="real_estate.estate15" model="real.estate">
             <field name="name">Tailor Houses</field>
-            <field name="postcode">54321</field>
+            <field name="postcode">635488</field>
             <field name="state">cancel</field>
             <field name="description">A Awesome and Modern House</field>
             <field name="date_availability">1963-05-02</field>
